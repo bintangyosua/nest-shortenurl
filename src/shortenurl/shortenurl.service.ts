@@ -1,9 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { ShortenUrlDto } from './dto/shortenurl.dto';
 import { Prisma } from '@prisma/client';
 import * as crypto from 'crypto';
-import { create } from 'domain';
 
 @Injectable()
 export class ShortenUrlService {
@@ -34,6 +33,12 @@ export class ShortenUrlService {
   async findUrlByCode(shortCode: string) {
     return this.prismaService.urls.findUnique({
       where: { short_code: shortCode },
+      select: {
+        created_at: true,
+        expiry_date: true,
+        original_url: true,
+        short_code: true,
+      },
     });
   }
 

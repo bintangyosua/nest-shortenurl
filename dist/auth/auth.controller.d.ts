@@ -1,5 +1,5 @@
 import { AuthService } from './auth.service';
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from '../users/users.service';
 export declare class AuthController {
     private authService;
     private usersService;
@@ -9,5 +9,4 @@ export declare class AuthController {
         email: string;
     }>;
     signIn(signInDto: Record<string, any>): Promise<any>;
-    getProfile(request: any): Promise<Record<string, any>>;
 }

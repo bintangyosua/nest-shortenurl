@@ -17,7 +17,6 @@ const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
 const users_service_1 = require("../users/users.service");
 const bcrypt = require("bcrypt");
-const auth_guard_1 = require("./auth.guard");
 let AuthController = exports.AuthController = class AuthController {
     constructor(authService, usersService) {
         this.authService = authService;
@@ -26,17 +25,14 @@ let AuthController = exports.AuthController = class AuthController {
     async signUp(signUpDto) {
         const saltOrRounds = 10;
         const hash = await bcrypt.hash(signUpDto.password, saltOrRounds);
-        return this.usersService.createUser({
+        const res = await this.usersService.createUser({
             email: signUpDto.email,
             password: hash,
         });
+        return res;
     }
     signIn(signInDto) {
         return this.authService.signIn(signInDto.email, signInDto.password);
-    }
-    async getProfile(request) {
-        const payload = request.user;
-        return await this.usersService.getUserById(payload.sub);
     }
 };
 __decorate([
@@ -55,14 +51,6 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "signIn", null);
-__decorate([
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
-    (0, common_1.Get)('profile'),
-    __param(0, (0, common_1.Request)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Promise)
-], AuthController.prototype, "getProfile", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService,

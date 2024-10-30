@@ -9,7 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcrypt';
 import { AuthGuard } from './auth.guard';
 
@@ -26,22 +26,17 @@ export class AuthController {
     const saltOrRounds = 10;
     const hash = await bcrypt.hash(signUpDto.password, saltOrRounds);
 
-    return this.usersService.createUser({
+    const res = await this.usersService.createUser({
       email: signUpDto.email,
       password: hash,
     });
+
+    return res;
   }
 
   @HttpCode(HttpStatus.OK)
   @Post('login')
   signIn(@Body() signInDto: Record<string, any>) {
     return this.authService.signIn(signInDto.email, signInDto.password);
-  }
-
-  @UseGuards(AuthGuard)
-  @Get('profile')
-  async getProfile(@Request() request): Promise<Record<string, any>> {
-    const payload = request.user;
-    return await this.usersService.getUserById(payload.sub);
   }
 }

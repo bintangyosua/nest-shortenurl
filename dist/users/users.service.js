@@ -26,7 +26,7 @@ let UsersService = exports.UsersService = class UsersService {
         });
     }
     async createUser(data) {
-        return this.prismaService.users.create({
+        const user = this.prismaService.users.create({
             data,
             select: {
                 id: true,
@@ -34,6 +34,7 @@ let UsersService = exports.UsersService = class UsersService {
                 password: false,
             },
         });
+        return user;
     }
     async getUserById(id) {
         return this.prismaService.users.findUnique({

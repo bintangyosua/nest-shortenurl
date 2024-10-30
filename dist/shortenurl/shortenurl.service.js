@@ -36,6 +36,12 @@ let ShortenUrlService = exports.ShortenUrlService = class ShortenUrlService {
     async findUrlByCode(shortCode) {
         return this.prismaService.urls.findUnique({
             where: { short_code: shortCode },
+            select: {
+                created_at: true,
+                expiry_date: true,
+                original_url: true,
+                short_code: true,
+            },
         });
     }
     generateUniqueCode() {

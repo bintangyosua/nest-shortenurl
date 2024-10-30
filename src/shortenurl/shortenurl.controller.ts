@@ -8,16 +8,14 @@ import {
   NotFoundException,
   Param,
   Post,
-  Redirect,
   Request,
   Res,
   UseGuards,
 } from '@nestjs/common';
 import { ShortenUrlService } from './shortenurl.service';
 import { ShortenUrlDto } from './dto/shortenurl.dto';
-import { AuthGuard } from 'src/auth/auth.guard';
+import { AuthGuard } from '../auth/auth.guard';
 import { Response } from 'express';
-import { seconds, Throttle, ThrottlerGuard } from '@nestjs/throttler';
 
 @Controller()
 export class ShortenUrlController {
