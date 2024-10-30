@@ -15,7 +15,7 @@ Instructions:
 - [x] Include rate-limiting to prevent abuse.
 - [x] Implement unit tests to test the functionality of your service.
 - [ ] Document your API endpoints and include a README file with setup instructions.
-- [ ] Document the API using Postman or Swagger.
+- [x] Document the API using Postman or Swagger.
 
 Evaluation:
 Your solution will be evaluated based on the following criteria:
