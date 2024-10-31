@@ -50,7 +50,7 @@ DATABASE_URL="mysql://username:password@localhost:3306/nestjs_url_shortener?sche
 JWT_SECRET="SECRET"
 ```
 
-1. Set up Prisma
+4. Set up Prisma
 
    1. Generate Prisma Client
 
@@ -82,21 +82,48 @@ $ pnpm run start:prod
 ```bash
 # unit tests
 $ pnpm run test
-
 ```
 
 ## Usage Examples
 
-- **Create a Short URL**: Use the /shortenurl endpoint with a POST request, sending a JSON body like:
+1. Sign Up and Log In
 
-  ```json
-  {
-    "originalUrl": "https://example.com",
-    "customCode": "myshorturl"
-  }
-  ```
+   - To use the API, users must first create an account and log in to receive an authorization token.
+   - **Sign Up**: Send a `POST` request to `/auth/signup` with a JSON body like:
+     ```json
+     {
+       "email": "user@example.com",
+       "password": "securePassword"
+     }
+     ```
+   - **Log In**: After signing up, log in using the `/auth/login` endpoint to receive a JWT token. Send a `POST` request with:
+     ```json
+     {
+       "email": "user@example.com",
+       "password": "securePassword"
+     }
+     ```
+   - **Receive Token**: The response will include an `access_token`. This token is required for authenticated requests.
 
-- Redirect URL: Access http://localhost:3000/myshorturl to be redirected to the original URL.
+2. **Create a Short URL**:
+
+   - Use the `/shortenurl` endpoint with a `POST` request
+   - Include the `Authorization` header with the token received from login.
+   - Send the following JSON body to shorten a URL:
+
+     ```json
+     {
+       "originalUrl": "https://example.com",
+       "customCode": "myshorturl"
+     }
+     ```
+
+   - Example Authorization Header:
+     ```http
+     Authorization: Bearer your_access_token_here
+     ```
+
+3. Redirect URL: Access `http://localhost:3000/myshorturl` to be redirected to the original URL.
 
 ## LICENSE
 
